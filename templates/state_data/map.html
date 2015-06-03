@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<html>
+<head>
+	<title>US Map Demo</title>
+
+	<style>
+	  #alert {
+	    font-family: Arial, Helvetica, sans-serif;
+	    font-size: 16px;
+	    background-color: #ddd;
+	    color: #333;
+	    padding: 5px;
+	    font-weight: bold;
+	  }
+	</style>
+
+	<script src="{% static 'js/raphael.js' %}"></script>
+	<script src="{% static 'js/jquery.js' %}"></script>
+	<script src="{% static 'js/color.jquery.js' %}"></script>
+	<script src="{% static 'js/jquery.usmap.js' %}"></script>
+
+	<script>
+
+    var state_facts = {
+    {% if state_facts %}
+        {% for each in state_facts %}
+        '{{ each.state.abbr }}' :
+            {
+                name: '{{ each.state.name}}',
+                details: '{{ each.details }}',
+                source_label: '{{ each.source_label }}',
+                source_url: '{{ each.source_url }}',
+                val: '{{ each.get_val }}',
+                str: '{{ each }}'
+            },
+        {% endfor %}
+    {% endif %}
+    };
+
+    var state_colors = {
+    {% if state_facts and fact.type = 'opt' %}
+        {% for each in state_facts %}
+        '{{ each.state.abbr }}' : {fill: '{{ each.opt.color}}'},
+        {% endfor %}
+    {% endif %}
+    };
+
+	$(document).ready(function() {
+	  $('#map').usmap({
+
+        'stateSpecificStyles': state_colors,
+
+	    'click' : function(event, data) {
+	      var state_code = data.name;
+	      var state_fact = state_facts[state_code];
+	      var alert_div = $('#alert');
+
+	      var div_contents = state_fact.name + ': ' + state_fact.val
+
+	      if (state_fact.source_url) {
+	         div_contents = div_contents + "<br/><a href='"+state_fact.source_url+"'>"+state_fact.source_label+"</a>"
+	      }
+
+          div_contents = div_contents + "<br/>Details: " + state_fact.details;
+
+	      alert_div.html(div_contents);
+	      alert_div.stop();
+	    }
+	  });
+
+	  $('#fact_form select').change(function() {
+	    $('#fact_form').submit();
+	  });
+	});
+	</script>
+</head>
+<body>
+  <span id="page-header" style="font-size: 45pt; font-style: italic;">State Wonk</span>
+
+  <div id="alert">Click a state</div>
+
+  <div id="map" style="width: 930px; height: 630px; float: left; margin-right: 25px; margin-top: 25px;"></div>
+
+  <div id="fact" style="">
+      <form id="fact_form" method="get" action="/map/">
+          {% csrf_token %}
+
+          <h3>Category: </h3>
+          <select id="selected_category" name="selected_category">
+              <option value="" {% if not category %}selected{% endif %}>Select a Category</option>
+          {% if categories %}
+              {% for each_cat in categories %}
+                <option value="{{each_cat.id}}" {% if category.id == each_cat.id %}selected{% endif %}>{{each_cat.name}}</option>
+              {% endfor %}
+          {% endif %}
+          </select>
+          <h3>Fact: </h3>
+          <select id="selected_fact" name="selected_fact">
+              <option value="" {% if not fact %}selected{% endif %}>Select a Fact</option>
+          {% if facts_for_category %}
+            {% for each_fact in facts_for_category %}
+                <option value="{{each_fact.id}}" {% if fact.id == each_fact.id %}selected{% endif %}>{{each_fact.title}}</option>
+            {% endfor %}
+          {% endif %}
+          </select>
+
+          {% if fact.source_url %}<h3>Source: </h3><a href="{{fact.source_url}}">{{ fact.source_label }}</a>{% endif %}
+          <table id="map_key" style="margin-top: 25px;">
+              <tbody>
+              {% for color_key, color in map_key.items %}
+              <tr><td><div style="background-color: {{color}}; width: 20px; height: 20px;">&nbsp;</div></td><td>{{color_key}}</td></tr>
+              {% endfor %}
+              </tbody>
+          </table>
+
+          <h3>Details: </h3>
+          <div id="details">
+              {{ fact.details }}
+          </div>
+      </form>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+MAP
+- Add script for Obamacare exchange setup
+- See if we can change the color of small state tiles
+- Add details to existing Facts
+- Remove "2015" from fact names
+- Add new Range class that allows specifying the colors for ranges (numbers & percentages), relationship to StateFact(?)
+
+- New map ideas:
+    * Minimum wage (number, Labor)
+    * Paid holidays (option, Labor)
+    * Percent Uninsured (percent, new health care / health insurance category?)
+    * Population by state (number, new category: "General")
+    * Demographic population by state: black, white, latino, asian, native, pacific islander (%, General)
+    * States that ban capital punishment (option)
+    * Gay marriage (option, new Category "Social Issues")
+    * Marijuana Legalization (option "Social Issues")
+    * Abortion?
+
+BLOG
+- Add models to blog project
+- Add new blog page
+
+WEBSITE
+- Contact person who made map (http://newsignature.github.io/us-map/)
+- Add to GitHub
+- deploy on PythonAnywhere
+- Purchase statewonk.com domain
