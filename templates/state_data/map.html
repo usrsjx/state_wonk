@@ -4,7 +4,7 @@
 
 <html>
 <head>
-	<title>US Map Demo</title>
+	<title>State Wonk</title>
 
 	<style>
 	  #alert {
@@ -64,7 +64,9 @@
 	         div_contents = div_contents + "<br/><a href='"+state_fact.source_url+"'>"+state_fact.source_label+"</a>"
 	      }
 
-          div_contents = div_contents + "<br/>Details: " + state_fact.details;
+          if (state_fact.details) {
+            div_contents = div_contents + "<br/>Details: " + state_fact.details;
+          }
 
 	      alert_div.html(div_contents);
 	      alert_div.stop();
@@ -97,7 +99,7 @@
               {% endfor %}
           {% endif %}
           </select>
-          <h3>Fact: </h3>
+          <h3>Map: </h3>
           <select id="selected_fact" name="selected_fact">
               <option value="" {% if not fact %}selected{% endif %}>Select a Fact</option>
           {% if facts_for_category %}
@@ -122,6 +124,7 @@
           </div>
       </form>
   </div>
+  <p style="clear: both;"><small><a href="http://newsignature.github.io/us-map/">U.S. Map</a> JQuery plugin from <a href="https://newsignature.com/">NEWSIGNATURE</a></small></p>
 
 </body>
 </html>

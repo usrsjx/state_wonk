@@ -115,7 +115,7 @@ class StateFact(models.Model):
     opt = models.ForeignKey(Option, blank=True, null=True)
 
     def get_val(self):
-        if self.pct is not None:
+        if self.nbr is not None:
             return self.fact.format_number_for_fact(self.nbr)
         elif self.opt is not None:
             return self.opt.label

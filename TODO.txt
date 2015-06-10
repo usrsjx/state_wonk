@@ -1,9 +1,8 @@
 MAP
-- Add script for Obamacare exchange setup
 - See if we can change the color of small state tiles
 - Add details to existing Facts
 - Remove "2015" from fact names
-- Add new Range class that allows specifying the colors for ranges (numbers & percentages), relationship to StateFact(?)
+
 
 - New map ideas:
     * Minimum wage (number, Labor)
@@ -15,13 +14,15 @@ MAP
     * Gay marriage (option, new Category "Social Issues")
     * Marijuana Legalization (option "Social Issues")
     * Abortion?
+    * States with income taxes (http://taxfoundation.org/blog/top-state-income-tax-rates-2014)
+    * States with sales taxes
+
 
 BLOG
 - Add models to blog project
 - Add new blog page
 
 WEBSITE
-- Contact person who made map (http://newsignature.github.io/us-map/)
-- Add to GitHub
 - deploy on PythonAnywhere
+- Switch to Postgresql
 - Purchase statewonk.com domain
